@@ -7,7 +7,7 @@ class WordlistManager:
         self.words_dict = {}
 
     def read_file(self):
-        f = open(self.name_file)
+        f = open(self.name_file, encoding='utf-8')
         while True:
             line = f.readline()
             if not line:
