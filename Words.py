@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+
+
 class WordlistManager:
 
     def __init__(self, name_file):
@@ -18,5 +20,4 @@ class WordlistManager:
 
     def print_dict(self):
         for k, v in self.words_dict.items():
-            print("{"+v + "} "+k)
-
+            print("{" + v + "} " + k)
