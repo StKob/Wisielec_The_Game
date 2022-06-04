@@ -1,4 +1,4 @@
-from Screen_start import Screen_start
+from ScreenStart import ScreenStart
 from Words import WordlistManager
 import pygame
 def print_hi(name):
@@ -11,6 +11,6 @@ if __name__ == '__main__':
     file.read_file()
     #file.print_dict()
     pygame.init()
-    screen_start = Screen_start()
+    screen_start = ScreenStart()
     screen_start.run()
 
