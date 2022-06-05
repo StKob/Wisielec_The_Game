@@ -38,14 +38,14 @@ class ScreenGame(Screen):
 
     def disp_word_rectangle(self, text):
         if self.word_rect is not None:
-            self.disp.blit(self.font.render(self.word*2, True, (255, 255, 255), (255, 255, 255)),
+            self.screen.blit(self.font.render(self.word*2, True, (255, 255, 255), (255, 255, 255)),
                            self.word_rect)
         self.word_rect = text.get_rect()
-        self.word_rect.center = (self.x // 2, self.y // 2)
-        self.disp.blit(text, self.word_rect)
+        self.word_rect.center = (self.width // 2, self.height // 2)
+        self.screen.blit(text, self.word_rect)
 
     def disp_category_rectangle(self, text):
         self.category_rect = text.get_rect()
-        self.category_rect.center = (self.x // 2, self.y // 4)
-        self.disp.blit(text, self.category_rect)
+        self.category_rect.center = (self.width // 2, self.height // 4)
+        self.screen.blit(text, self.category_rect)
 
