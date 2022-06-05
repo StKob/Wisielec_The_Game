@@ -2,6 +2,7 @@ import pygame
 
 from Screen import Screen
 from ScreenGame import ScreenGame
+from ScreenStart import ScreenStart
 from Words import WordlistManager
 
 
@@ -23,12 +24,15 @@ if __name__ == '__main__':
     print_hi('PyCharm')
     file = WordlistManager("Wordlist.txt")
     file.read_file()
-    file.print_dict()
-    scr = Screen()
+
+    screen_start = ScreenStart()
+    screen_start.run()
     scrgame = ScreenGame("test", "TESTOWA")
     scrgame.set_font('freesansbold.ttf', 32)
     scrgame.show_masked_word()
     scrgame.show_category()
     scrgame.show_letter_if_present('t')
     working_loop()
+
+
 
