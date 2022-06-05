@@ -10,7 +10,8 @@ if __name__ == '__main__':
 
     screen_start = ScreenStart()
     screen_start.run()
-    scrgame = ScreenGame("test", "TESTOWA")
+    word, category = file.get_random_word()
+    scrgame = ScreenGame(word, category)
     scrgame.run()
 
     screen_final = ScreenFinal("win")
@@ -18,7 +19,3 @@ if __name__ == '__main__':
 
     screen_final = ScreenFinal("loss")
     screen_final.run()
-
-
-
-

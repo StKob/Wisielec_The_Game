@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
+import random
 
 
 class WordlistManager:
@@ -21,3 +22,7 @@ class WordlistManager:
     def print_dict(self):
         for k, v in self.words_dictionary.items():
             print("{" + v + "} " + k)
+
+    def get_random_word(self):
+        word, category = random.choice(list(self.words_dictionary.items()))
+        return word, category
