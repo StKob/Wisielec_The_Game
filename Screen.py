@@ -28,20 +28,26 @@ class Screen:
     def button(self, msg, x, y, w, h, inactive_color, active_color, action=None, letter_action=None):
         mouse = pygame.mouse.get_pos()
         click = pygame.mouse.get_pressed()
+        pygame.draw.rect(self.screen, inactive_color, (x, y, w, h))
+
+        button_text = pygame.font.SysFont(self.font_name, self.font_size_small)
+        text_surf, text_rect = self.text_objects(msg, button_text, self.white)
+        text_rect.center = ((x + (w / 2)), (y + (h / 2)))
+
         if x + w > mouse[0] > x and y + h > mouse[1] > y:
             pygame.draw.rect(self.screen, active_color, (x, y, w, h))
 
             if click[0] == 1 and action is not None:
                 action()
+                return
             if click[0] == 1 and letter_action is not None:
                 letter_action(msg)
         else:
             pygame.draw.rect(self.screen, inactive_color, (x, y, w, h))
 
-        button_text = pygame.font.SysFont(self.font_name, self.font_size_small)
-        text_surf, text_rect = self.text_objects(msg, button_text, self.white)
-        text_rect.center = ((x + (w / 2)), (y + (h / 2)))
         self.screen.blit(text_surf, text_rect)
+
+
 
     @staticmethod
     def text_objects(text, font, color):
