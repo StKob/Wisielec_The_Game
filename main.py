@@ -10,8 +10,9 @@ if __name__ == '__main__':
 
     screen_start = ScreenStart()
     screen_start.run()
-    scrgame = ScreenGame("test", "TESTOWA")
-    scrgame.run()
+
+    #scrgame = ScreenGame("test", "TESTOWA")
+    #scrgame.run()
 
     screen_final = ScreenFinal("win")
     screen_final.run()
