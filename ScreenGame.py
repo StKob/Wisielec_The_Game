@@ -1,4 +1,5 @@
 ﻿import pygame
+import string
 
 from Screen import Screen
 
@@ -11,6 +12,7 @@ class ScreenGame(Screen):
         self.word = word
         self.length = len(word)
         self.masked_word = list(self.length * '_')
+        self.letter_list = list(string.ascii_lowercase)
         self.guessed = 0
         self.word_rect = None
         self.category_rect = None
@@ -26,6 +28,7 @@ class ScreenGame(Screen):
                 if event.type == pygame.QUIT:
                     running = False
             self.button("Wyjście", self.width / 2 + 250, self.height * 0.05, 200, 80, self.bright_blue, self.blue, quit)
+            self.add_letter_buttons()
             pygame.display.update()
 
     def show_word(self):
@@ -62,6 +65,18 @@ class ScreenGame(Screen):
         self.category_rect.center = (self.width // 2, self.height // 4)
         self.screen.blit(text, self.category_rect)
 
+    def add_letter_buttons(self):
+        self.iter = 0
+        self.mul = 0.7
+        for i in self.letter_list:
+            self.button(i, self.width // 2 - 450 + self.iter, self.height * self.mul, 60, 60, self.bright_blue, self.blue)
+            self.iter += 70
+            if self.iter >= 700:
+                self.iter = 0
+                self.mul += 0.1
+
+
     def quit(self):
         pygame.quit()
         exit()
+
