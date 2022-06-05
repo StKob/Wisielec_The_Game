@@ -12,7 +12,7 @@ class ScreenStart(Screen):
         self.name = "Wisielec"
         self.screen = pygame.display.set_mode((self.width, self.height))
         pygame.display.set_caption(self.name)
-        self.foto = pygame.image.load('assets/images/hangman10.png')
+        self.foto = pygame.image.load('assets/images/hangman9.png')
         self.foto = pygame.transform.scale(self.foto, (self.width * 0.4, self.height * 0.6))
         self.text = "Wisielec"
 
