@@ -5,7 +5,8 @@ class Screen:
 
     def __init__(self):
         pygame.init()
-        self.font = "comicsansms"
+        self.font_name = "comicsansms"
+        self.font = None
         self.width = 1000
         self.height = 700
         self.font_size_large = 90
@@ -16,7 +17,7 @@ class Screen:
         pygame.display.update()
 
     def set_font(self, font, size):
-        self.font = pygame.font.Font(font, size)
+        self.font = pygame.font.SysFont(font, size)
 
     def set_colors(self):
         self.black = (0, 0, 0)
@@ -24,18 +25,20 @@ class Screen:
         self.blue = (0, 0, 204)
         self.bright_blue = (0, 128, 255)
 
-    def button(self, msg, x, y, w, h, inactive_color, active_color, action=None):
+    def button(self, msg, x, y, w, h, inactive_color, active_color, action=None, letter_action=None):
         mouse = pygame.mouse.get_pos()
         click = pygame.mouse.get_pressed()
         if x + w > mouse[0] > x and y + h > mouse[1] > y:
             pygame.draw.rect(self.screen, active_color, (x, y, w, h))
 
-            if click[0] == 1 and action != None:
+            if click[0] == 1 and action is not None:
                 action()
+            if click[0] == 1 and letter_action is not None:
+                letter_action(msg)
         else:
             pygame.draw.rect(self.screen, inactive_color, (x, y, w, h))
 
-        button_text = pygame.font.SysFont(self.font, self.font_size_small)
+        button_text = pygame.font.SysFont(self.font_name, self.font_size_small)
         text_surf, text_rect = self.text_objects(msg, button_text, self.white)
         text_rect.center = ((x + (w / 2)), (y + (h / 2)))
         self.screen.blit(text_surf, text_rect)
