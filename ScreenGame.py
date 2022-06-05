@@ -69,14 +69,22 @@ class ScreenGame(Screen):
         self.iter = 0
         self.mul = 0.7
         for i in self.letter_list:
-            self.button(i, self.width // 2 - 450 + self.iter, self.height * self.mul, 60, 60, self.bright_blue, self.blue)
+            self.button(i, self.width // 2 - 450 + self.iter, self.height * self.mul, 60, 60, self.bright_blue,
+                        self.blue, letter_action=self.on_letter_button_pressed)
             self.iter += 70
             if self.iter >= 700:
                 self.iter = 0
                 self.mul += 0.1
 
+    def on_letter_button_pressed(self, letter):
+        self.letter_list.remove(letter)
+        pygame.draw.rect(self.screen, (255, 255, 255), (self.width // 2 - 450, self.height * 0.7, 800, 800))
+        pygame.time.delay(100)
 
     def quit(self):
         pygame.quit()
         exit()
+
+
+
 

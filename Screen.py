@@ -25,7 +25,7 @@ class Screen:
         self.blue = (0, 0, 204)
         self.bright_blue = (0, 128, 255)
 
-    def button(self, msg, x, y, w, h, inactive_color, active_color, action=None):
+    def button(self, msg, x, y, w, h, inactive_color, active_color, action=None, letter_action=None):
         mouse = pygame.mouse.get_pos()
         click = pygame.mouse.get_pressed()
         if x + w > mouse[0] > x and y + h > mouse[1] > y:
@@ -33,6 +33,8 @@ class Screen:
 
             if click[0] == 1 and action is not None:
                 action()
+            if click[0] == 1 and letter_action is not None:
+                letter_action(msg)
         else:
             pygame.draw.rect(self.screen, inactive_color, (x, y, w, h))
 
