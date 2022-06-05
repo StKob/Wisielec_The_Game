@@ -25,7 +25,8 @@ class ScreenGame(Screen):
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
-                pygame.display.update()
+            self.button("Wyjście", self.width / 2 + 250, self.height * 0.05, 200, 80, self.bright_blue, self.blue, quit)
+            pygame.display.update()
 
     def show_word(self):
         text = self.font.render(self.word, True, (0, 0, 0), (255, 255, 255))
@@ -60,3 +61,7 @@ class ScreenGame(Screen):
         self.category_rect = text.get_rect()
         self.category_rect.center = (self.width // 2, self.height // 4)
         self.screen.blit(text, self.category_rect)
+
+    def quit(self):
+        pygame.quit()
+        exit()
