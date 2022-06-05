@@ -24,9 +24,7 @@ if __name__ == '__main__':
     print_hi('PyCharm')
     file = WordlistManager("Wordlist.txt")
     file.read_file()
-    file.print_dict()
-    scr = Screen()
-    pygame.init()
+
     screen_start = ScreenStart()
     screen_start.run()
     scrgame = ScreenGame("test", "TESTOWA")

@@ -1,25 +1,18 @@
 ﻿import pygame.display
 
-black = (0, 0, 0)
-white = (255, 255, 255)
-blue = (0, 0, 204)
-bright_blue = (0, 128, 255)
+from Screen import Screen
 
 
-class ScreenStart:
+class ScreenStart(Screen):
 
     def __init__(self):
+        super().__init__()
         self.name = "Wisielec"
-        self.width = 1000
-        self.height = 700
-        self.screen_start = pygame.display.set_mode((self.width, self.height))  # wymiary z sceen
+        self.screen_start = pygame.display.set_mode((self.width, self.height))
         pygame.display.set_caption(self.name)
         self.foto = pygame.image.load('foto.png')
-        self.foto = pygame.transform.scale(self.foto, (self.width * 0.8, self.height * 0.6))  # wymiary wzgledem screen
-        self.font = "comicsansms"  # do screen
+        self.foto = pygame.transform.scale(self.foto, (self.width * 0.8, self.height * 0.6))
         self.text = "Wisielec"
-        self.font_size_large = 90  # do screen
-        self.font_size_small = 30  # do screen
 
     def run(self):
         active = True
@@ -27,14 +20,14 @@ class ScreenStart:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     active = False
-            self.screen_start.fill(white)
+            self.screen_start.fill(self.white)
 
             self.screen_start.blit(self.foto, (self.width * 0.1, 0))
             large_text = pygame.font.SysFont(self.font, self.font_size_large)
-            text_surf, text_rect = text_objects(self.text, large_text, black)
+            text_surf, text_rect = text_objects(self.text, large_text, self.black)
             text_rect.center = (self.width / 2, self.height * 0.7)
             self.screen_start.blit(text_surf, text_rect)
-            self.button("Start", self.width / 2 - 100, self.height * 0.8, 200, 80, bright_blue, blue)
+            self.button("Start", self.width / 2 - 100, self.height * 0.8, 200, 80, self.bright_blue, self.blue)
 
             pygame.display.update()
 
@@ -50,7 +43,7 @@ class ScreenStart:
             pygame.draw.rect(self.screen_start, unactive_color, (x, y, w, h))
 
         button_text = pygame.font.SysFont(self.font, self.font_size_small)
-        text_surf, text_rect = text_objects(msg, button_text, white)
+        text_surf, text_rect = text_objects(msg, button_text, self.white)
         text_rect.center = ((x + (w / 2)), (y + (h / 2)))
         self.screen_start.blit(text_surf, text_rect)
 
