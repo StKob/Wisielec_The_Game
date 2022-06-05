@@ -25,10 +25,10 @@ if __name__ == '__main__':
     file.read_file()
     file.print_dict()
     scr = Screen()
-    scrgame = ScreenGame("test", "TESTOWA")
+    word, category = file.get_random_word()
+    scrgame = ScreenGame(word, category)
     scrgame.set_font('freesansbold.ttf', 32)
     scrgame.show_masked_word()
     scrgame.show_category()
     scrgame.show_letter_if_present('t')
     working_loop()
-
