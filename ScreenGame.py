@@ -108,7 +108,7 @@ class ScreenGame(Screen):
         pygame.time.delay(100)
 
     def show_hangman(self):
-        if self.failed_clicks > -1:
+        if -1 < self.failed_clicks < 10:
             self.screen.blit(self.images[self.failed_clicks], (0, 50))
 
     def quit(self):
