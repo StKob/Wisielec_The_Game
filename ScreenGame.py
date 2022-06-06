@@ -4,6 +4,7 @@ import os
 from pathlib import Path
 
 from Screen import Screen
+from ScreenFinal import ScreenFinal
 
 
 class ScreenGame(Screen):
@@ -33,6 +34,14 @@ class ScreenGame(Screen):
             self.button("Wyjście", self.width / 2 + 250, self.height * 0.7, 200, 80, self.bright_blue, self.blue, quit)
             self.add_letter_buttons()
             self.show_hangman()
+            if self.check_if_won():
+                running = False
+                screen_final = ScreenFinal("win")
+                screen_final.run()
+            if self.check_if_fail():
+                running = False
+                screen_final = ScreenFinal("loss")
+                screen_final.run()
             pygame.display.update()
 
     def load_images(self):
@@ -57,7 +66,7 @@ class ScreenGame(Screen):
         pygame.display.update()
 
     def show_letter_if_present(self, letter):
-        if not str(self.word).find(letter, 0):
+        if str(self.word).find(letter, 0) == -1:
             self.failed_clicks += 1
         for index, item in enumerate(self.word):
             if item == letter:
@@ -66,7 +75,7 @@ class ScreenGame(Screen):
         self.show_masked_word()
 
     def check_if_won(self):
-        if self.failed_clicks < 9 and str(self.masked_word) == self.word:
+        if self.failed_clicks < 9 and ''.join(self.masked_word) == self.word:
             return True
         else:
             return False
@@ -103,7 +112,7 @@ class ScreenGame(Screen):
 
     def on_letter_button_pressed(self, letter):
         self.letter_list.remove(letter)
-        self.failed_clicks += 1 #do usuniecia, tylko do pokazania dzialania show_hangman()
+        self.show_letter_if_present(letter)
         pygame.draw.rect(self.screen, (255, 255, 255), (self.width // 2 - 550, self.height * 0.7, 800, 800))
         pygame.time.delay(100)
 
