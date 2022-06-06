@@ -45,12 +45,17 @@ class ScreenGame(Screen):
         pygame.display.update()
 
     def show_letter_if_present(self, letter):
+        if str(self.word).find(letter, 0):
+            self.guessed += 1
         for index, item in enumerate(self.word):
             if item == letter:
-                self.guessed += 1
                 self.masked_word[index] = letter
 
         self.show_masked_word()
+
+    def check_if_won(self):
+        if self.guessed < 9 and str(self.masked_word) == self.word:
+            return True
 
     def disp_word_rectangle(self, text):
         if self.word_rect is not None:
