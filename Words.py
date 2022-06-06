@@ -25,4 +25,5 @@ class WordlistManager:
 
     def get_random_word(self):
         word, category = random.choice(list(self.words_dictionary.items()))
+        word = str.strip(word)
         return word, category

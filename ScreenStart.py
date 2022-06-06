@@ -39,7 +39,7 @@ class ScreenStart(Screen):
         file.read_file()
         word, category = file.get_random_word()
 
-        scrgame = ScreenGame('myszoskoczek', category)
+        scrgame = ScreenGame(word, category)
         pygame.time.delay(200)
         scrgame.run()
         pygame.quit()

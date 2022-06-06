@@ -1,6 +1,7 @@
 ﻿import pygame
 import string
 import os
+import locale
 from pathlib import Path
 
 from Screen import Screen
@@ -11,11 +12,14 @@ class ScreenGame(Screen):
 
     def __init__(self, word, category):
         super().__init__()
+        locale.setlocale(locale.LC_ALL, "")
         self.category = category
         self.word = word
         self.length = len(word)
         self.masked_word = list(self.length * '_')
         self.letter_list = list(string.ascii_lowercase)
+        self.letter_list.extend(['ą', 'ć', 'ę', 'ł', 'ń', 'ó', 'ś', 'ź', 'ż'])
+        self.letter_list.sort(key=locale.strxfrm)
         self.failed_clicks = -1
         self.word_rect = None
         self.category_rect = None
@@ -103,17 +107,17 @@ class ScreenGame(Screen):
         self.iter = 0
         self.mul = 0.7
         for i in self.letter_list:
-            self.button(i, self.width // 2 - 530 + self.iter, self.height * self.mul, 60, 60, self.bright_blue,
+            self.button(i, self.width // 2 - 600 + self.iter, self.height * self.mul, 60, 60, self.bright_blue,
                         self.blue, letter_action=self.on_letter_button_pressed)
             self.iter += 70
-            if self.iter >= 600:
+            if self.iter >= 800:
                 self.iter = 0
                 self.mul += 0.1
 
     def on_letter_button_pressed(self, letter):
         self.letter_list.remove(letter)
         self.show_letter_if_present(letter)
-        pygame.draw.rect(self.screen, (255, 255, 255), (self.width // 2 - 550, self.height * 0.7, 800, 800))
+        pygame.draw.rect(self.screen, (255, 255, 255), (self.width // 2 - 600, self.height * 0.7, 800, 800))
         pygame.time.delay(100)
 
     def show_hangman(self):
