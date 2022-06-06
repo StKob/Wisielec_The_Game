@@ -40,11 +40,11 @@ class ScreenGame(Screen):
             self.show_hangman()
             if self.check_if_won():
                 running = False
-                screen_final = ScreenFinal("win")
+                screen_final = ScreenFinal("win",self.images[self.failed_clicks])
                 screen_final.run()
             if self.check_if_fail():
                 running = False
-                screen_final = ScreenFinal("loss")
+                screen_final = ScreenFinal("loss", self.images[self.failed_clicks])
                 screen_final.run()
             pygame.display.update()
 
