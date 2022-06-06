@@ -7,9 +7,10 @@ class Screen:
         pygame.init()
         self.font_name = "comicsansms"
         self.font = None
-        self.width = 1000
-        self.height = 700
+        self.width = 1280
+        self.height = 800
         self.font_size_large = 90
+        self.font_size_medium = 60
         self.font_size_small = 30
         self.set_colors()
         self.screen = pygame.display.set_mode((int(self.width), int(self.height)))

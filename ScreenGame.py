@@ -18,7 +18,7 @@ class ScreenGame(Screen):
         self.failed_clicks = -1
         self.word_rect = None
         self.category_rect = None
-        self.set_font(self.font_name, self.font_size_large)
+        self.set_font(self.font_name, self.font_size_medium)
         self.images = self.load_images()
 
     def run(self):
@@ -30,7 +30,7 @@ class ScreenGame(Screen):
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
-            self.button("Wyjście", self.width / 2 + 250, self.height * 0.05, 200, 80, self.bright_blue, self.blue, quit)
+            self.button("Wyjście", self.width / 2 + 250, self.height * 0.7, 200, 80, self.bright_blue, self.blue, quit)
             self.add_letter_buttons()
             self.show_hangman()
             pygame.display.update()
@@ -82,34 +82,34 @@ class ScreenGame(Screen):
             self.screen.blit(self.font.render(self.word * 2, True, (255, 255, 255), (255, 255, 255)),
                              self.word_rect)
         self.word_rect = text.get_rect()
-        self.word_rect.center = (self.width // 2, self.height // 2)
+        self.word_rect.center = (self.width // 3, self.height // 2)
         self.screen.blit(text, self.word_rect)
 
     def disp_category_rectangle(self, text):
         self.category_rect = text.get_rect()
-        self.category_rect.center = (self.width // 2, self.height // 4)
+        self.category_rect.center = (self.width // 3, self.height // 4)
         self.screen.blit(text, self.category_rect)
 
     def add_letter_buttons(self):
         self.iter = 0
         self.mul = 0.7
         for i in self.letter_list:
-            self.button(i, self.width // 2 - 450 + self.iter, self.height * self.mul, 60, 60, self.bright_blue,
+            self.button(i, self.width // 2 - 530 + self.iter, self.height * self.mul, 60, 60, self.bright_blue,
                         self.blue, letter_action=self.on_letter_button_pressed)
             self.iter += 70
-            if self.iter >= 700:
+            if self.iter >= 600:
                 self.iter = 0
                 self.mul += 0.1
 
     def on_letter_button_pressed(self, letter):
         self.letter_list.remove(letter)
         self.failed_clicks += 1 #do usuniecia, tylko do pokazania dzialania show_hangman()
-        pygame.draw.rect(self.screen, (255, 255, 255), (self.width // 2 - 450, self.height * 0.7, 800, 800))
+        pygame.draw.rect(self.screen, (255, 255, 255), (self.width // 2 - 550, self.height * 0.7, 800, 800))
         pygame.time.delay(100)
 
     def show_hangman(self):
         if -1 < self.failed_clicks < 10:
-            self.screen.blit(self.images[self.failed_clicks], (0, 50))
+            self.screen.blit(self.images[self.failed_clicks], (self.width // 2 + 190, 50))
 
     def quit(self):
         pygame.quit()

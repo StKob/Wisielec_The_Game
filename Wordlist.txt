@@ -18,7 +18,6 @@ Pomieszczenia kuchnia
 Pomieszczenia strych
 Pomieszczenia piwnica
 Pomieszczenia jadalnia
-Pomieszczenia pokój dziecięcy
 Jedzenie pomidor
 Jedzenie marchewka
 Jedzenie kalafior
