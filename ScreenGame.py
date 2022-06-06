@@ -1,5 +1,7 @@
 ﻿import pygame
 import string
+import os
+from pathlib import Path
 
 from Screen import Screen
 
@@ -13,10 +15,11 @@ class ScreenGame(Screen):
         self.length = len(word)
         self.masked_word = list(self.length * '_')
         self.letter_list = list(string.ascii_lowercase)
-        self.guessed = 0
+        self.failed_clicks = -1
         self.word_rect = None
         self.category_rect = None
         self.set_font(self.font_name, self.font_size_large)
+        self.images = self.load_images()
 
     def run(self):
         running = True
@@ -29,7 +32,16 @@ class ScreenGame(Screen):
                     running = False
             self.button("Wyjście", self.width / 2 + 250, self.height * 0.05, 200, 80, self.bright_blue, self.blue, quit)
             self.add_letter_buttons()
+            self.show_hangman()
             pygame.display.update()
+
+    def load_images(self):
+        images = []
+        directory = Path(__file__).parent.absolute() / "assets" / "images"
+        for i in range(len(os.listdir(directory))):
+            img = pygame.image.load(str(directory / "hangman") + str(i) + ".png")
+            images.append(img)
+        return images
 
     def show_word(self):
         text = self.font.render(self.word, True, (0, 0, 0), (255, 255, 255))
@@ -45,8 +57,8 @@ class ScreenGame(Screen):
         pygame.display.update()
 
     def show_letter_if_present(self, letter):
-        if str(self.word).find(letter, 0):
-            self.guessed += 1
+        if not str(self.word).find(letter, 0):
+            self.failed_clicks += 1
         for index, item in enumerate(self.word):
             if item == letter:
                 self.masked_word[index] = letter
@@ -54,8 +66,16 @@ class ScreenGame(Screen):
         self.show_masked_word()
 
     def check_if_won(self):
-        if self.guessed < 9 and str(self.masked_word) == self.word:
+        if self.failed_clicks < 9 and str(self.masked_word) == self.word:
             return True
+        else:
+            return False
+
+    def check_if_fail(self):
+        if self.failed_clicks >= 9:
+            return True
+        else:
+            return False
 
     def disp_word_rectangle(self, text):
         if self.word_rect is not None:
@@ -83,8 +103,13 @@ class ScreenGame(Screen):
 
     def on_letter_button_pressed(self, letter):
         self.letter_list.remove(letter)
+        self.failed_clicks += 1 #do usuniecia, tylko do pokazania dzialania show_hangman()
         pygame.draw.rect(self.screen, (255, 255, 255), (self.width // 2 - 450, self.height * 0.7, 800, 800))
         pygame.time.delay(100)
+
+    def show_hangman(self):
+        if self.failed_clicks > -1:
+            self.screen.blit(self.images[self.failed_clicks], (0, 50))
 
     def quit(self):
         pygame.quit()
