@@ -21,6 +21,7 @@ class Screen:
         self.font = pygame.font.SysFont(font, size)
 
     def set_colors(self):
+        self.red=(255,74,74)
         self.black = (0, 0, 0)
         self.white = (255, 255, 255)
         self.blue = (0, 0, 204)
