@@ -5,23 +5,22 @@ from Screen import Screen
 
 class ScreenFinal(Screen):
 
-    def __init__(self, mode, image):
+    def __init__(self, mode, word):
         super().__init__()
         self.text="Coś poszło nie tak"
         self.text2=" "
         self.name="Error"
-        self.button_name="Nowa gra"
+        self.button_name="Koniec"
         self.set_mode_style(mode)
         self.screen=pygame.display.set_mode((self.width, self.height))
-        self.image = image
-        self.foto = pygame.transform.scale(self.image, (self.width * 0.4, self.height * 0.6))
+        self.word =word
 
     def set_mode_style(self, mode):
-        if(mode=="win"):
+        if mode== "win":
             self.text="Gratulacje zgadłeś słowo !!!"
             self.text2 = "Zagraj jeszcze raz."
             self.name="Wygrana"
-        if(mode=="loss"):
+        if mode== "loss":
             self.text = "Niestety nie udało ci się zgadnąć słowa. "
             self.text2="Spróbuj jeszcze raz."
             self.name = "Przegrana"
@@ -36,14 +35,20 @@ class ScreenFinal(Screen):
 
         text2 = pygame.font.SysFont(self.font, self.font_size_medium)
         text_surf, text_position = self.text_objects(self.text2, text2, self.black)
-        text_position.center = (self.width / 2, self.height *0.75)
+        text_position.center = (self.width / 2, self.height *0.7)
         self.screen.blit(text_surf, text_position)
 
-        self.screen.blit(self.image, (self.width / 2- self.width*0.4/3, self.height/4))
+        word = pygame.font.SysFont(self.font, self.font_size_large*2)
+        text_surf, text_position = self.text_objects(self.word, word, self.red)
+        text_position.center = (self.width / 2, self.height /2-50)
+        self.screen.blit(text_surf, text_position)
         while active:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     active = False
 
-            self.button(self.button_name, self.width / 2 - 100, self.height *0.85, 200, 80, self.bright_blue, self.blue)
+            self.button(self.button_name, self.width / 2 - 100, self.height *0.80, 200, 80, self.bright_blue, self.blue,quit)
             pygame.display.update()
+    def quit(self):
+        pygame.quit()
+        exit()
