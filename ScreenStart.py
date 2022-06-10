@@ -38,8 +38,8 @@ class ScreenStart(Screen):
         file = WordlistManager("Wordlist.txt")
         file.read_file()
         word, category = file.get_random_word()
-
         scrgame = ScreenGame(word, category)
+
         pygame.time.delay(200)
         scrgame.run()
         pygame.quit()
