@@ -29,7 +29,7 @@ class ScreenGame(Screen):
     def run(self):
         running = True
         self.show_masked_word()
-        self.show_category()
+        self.show_word_or_category(self.category)
 
         while running:
             for event in pygame.event.get():
@@ -56,16 +56,16 @@ class ScreenGame(Screen):
             images.append(img)
         return images
 
-    def show_word(self):
-        text = self.font.render(self.word, True, (0, 0, 0), (255, 255, 255))
-        self.disp_word_rectangle(text)
+    def show_word_or_category(self, data):
+        text = self.font.render(data, True, self.black, self.white)
+        if data == self.word:
+            self.disp_word_rectangle(text)
 
-    def show_category(self):
-        text = self.font.render(self.category, True, (0, 0, 0), (255, 255, 255))
-        self.disp_category_rectangle(text)
+        if data == self.category:
+            self.disp_category_rectangle(text)
 
     def show_masked_word(self):
-        text = self.font.render(' '.join(self.masked_word), True, (0, 0, 0), (255, 255, 255))
+        text = self.font.render(' '.join(self.masked_word), True, self.black, self.white)
         self.disp_word_rectangle(text)
         pygame.display.update()
 
@@ -92,7 +92,7 @@ class ScreenGame(Screen):
 
     def disp_word_rectangle(self, text):
         if self.word_rect is not None:
-            self.screen.blit(self.font.render(self.word * 2, True, (255, 255, 255), (255, 255, 255)),
+            self.screen.blit(self.font.render(self.word * 2, True, self.white, self.white),
                              self.word_rect)
         self.word_rect = text.get_rect()
         self.word_rect.center = (self.width // 3, self.height // 2)
@@ -117,7 +117,7 @@ class ScreenGame(Screen):
     def on_letter_button_pressed(self, letter):
         self.letter_list.remove(letter)
         self.show_letter_if_present(letter)
-        pygame.draw.rect(self.screen, (255, 255, 255), (self.width // 2 - 600, self.height * 0.7, 800, 800))
+        pygame.draw.rect(self.screen, self.white, (self.width // 2 - 600, self.height * 0.7, 800, 800))
         pygame.time.delay(100)
 
     def show_hangman(self):
