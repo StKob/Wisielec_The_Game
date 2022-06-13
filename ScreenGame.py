@@ -93,7 +93,7 @@ class ScreenGame(Screen):
 
     def disp_word_rectangle(self, text):
         if self.word_rect is not None:
-            self.screen.blit(self.font.render(self.word * 2, True, self.white, self.white),
+            self.screen.blit(self.font.render(self.word + 7*"A", True, self.white, self.white),
                              self.word_rect)
         self.word_rect = text.get_rect()
         self.word_rect.center = (self.width // 3, self.height // 2)
