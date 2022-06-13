@@ -13,6 +13,7 @@ class ScreenGame(Screen):
     def __init__(self, word, category):
         super().__init__()
         locale.setlocale(locale.LC_ALL, "")
+        self.letter_button_size = 60
         self.category = category
         self.word = word
         self.length = len(word)
@@ -104,20 +105,21 @@ class ScreenGame(Screen):
         self.screen.blit(text, self.category_rect)
 
     def add_letter_buttons(self):
-        self.iter = 0
-        self.mul = 0.7
+        iteration = 0
+        mul = 0.7
         for i in self.letter_list:
-            self.button(i, self.width // 2 - 600 + self.iter, self.height * self.mul, 60, 60, self.bright_blue,
-                        self.blue, letter_action=self.on_letter_button_pressed)
-            self.iter += 70
-            if self.iter >= 800:
-                self.iter = 0
-                self.mul += 0.1
+            self.button(i, self.width // 2 - 600 + iteration, self.height * mul,  self.letter_button_size,
+                        self.letter_button_size, self.bright_blue, self.blue,
+                        letter_action=self.on_letter_button_pressed)
+            iteration += 70
+            if iteration >= 800:
+                iteration = 0
+                mul += 0.1
 
     def on_letter_button_pressed(self, letter):
         self.letter_list.remove(letter)
         self.show_letter_if_present(letter)
-        pygame.draw.rect(self.screen, self.white, (self.width // 2 - 600, self.height * 0.7, 800, 800))
+        pygame.draw.rect(self.screen, self.white, (self.width // 2 - 600, self.height * 0.7, 850, 800))
         pygame.time.delay(100)
 
     def show_hangman(self):
