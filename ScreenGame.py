@@ -1,4 +1,5 @@
 ﻿import pygame
+import pygame_textinput
 import string
 import os
 import locale
@@ -29,25 +30,39 @@ class ScreenGame(Screen):
 
     def run(self):
         running = True
-        self.show_masked_word()
-        self.show_word_or_category(self.category)
+
+        textinput = pygame_textinput.TextInputVisualizer()
+        textinput.cursor_blink_interval = 500
 
         while running:
-            for event in pygame.event.get():
+            self.screen.fill((255, 255, 255))
+            events = pygame.event.get()
+            for event in events:
                 if event.type == pygame.QUIT:
                     running = False
+            self.show_masked_word()
+            self.show_word_or_category(self.category)
             self.button("Wyjście", self.width / 2 + 250, self.height * 0.7, 200, 80, self.bright_blue, self.blue, quit)
             self.add_letter_buttons()
             self.show_hangman()
+            self.text_input(textinput, events, running)
             if self.check_if_won():
-                running = False
-                screen_final = ScreenFinal("win", self.word)
-                screen_final.run()
+                self.win(running)
             if self.check_if_fail():
-                running = False
-                screen_final = ScreenFinal("loss", self.word)
-                screen_final.run()
+                self.fail(running)
             pygame.display.update()
+
+    def fail(self, running):
+        running = False
+        screen_final = ScreenFinal("loss", self.word)
+        screen_final.run()
+        return running
+
+    def win(self, running):
+        running = False
+        screen_final = ScreenFinal("win", self.word)
+        screen_final.run()
+        return running
 
     def load_images(self):
         images = []
@@ -68,7 +83,6 @@ class ScreenGame(Screen):
     def show_masked_word(self):
         text = self.font.render(' '.join(self.masked_word), True, self.black, self.white)
         self.disp_word_rectangle(text)
-        pygame.display.update()
 
     def show_letter_if_present(self, letter):
         if str(self.word).find(letter, 0) == -1:
@@ -125,6 +139,17 @@ class ScreenGame(Screen):
     def show_hangman(self):
         if -1 < self.failed_clicks < 10:
             self.screen.blit(self.images[self.failed_clicks], (self.width // 2 + 190, 50))
+
+    def text_input(self, textinput, events, running_state):
+        textinput.update(events)
+        for event in events:
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
+                if textinput.value == self.word:
+                    self.win(running_state)
+                else:
+                    self.failed_clicks += 1
+                textinput.value = ""
+        self.screen.blit(textinput.surface, (10,10))
 
     def quit(self):
         pygame.quit()
