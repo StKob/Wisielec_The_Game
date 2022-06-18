@@ -12,6 +12,10 @@ class Screen:
         self.font_size_large = 90
         self.font_size_medium = 60
         self.font_size_small = 30
+        self.window_center_width=self.width/2
+        self.window_center_height = self.height / 2
+        self.window_one_third_width= self.width/3
+        self.window_one_third_height = self.height / 3
         self.set_colors()
         self.screen = pygame.display.set_mode((int(self.width), int(self.height)))
         self.screen.fill(self.white)

@@ -30,24 +30,24 @@ class ScreenFinal(Screen):
         self.screen.fill(self.white)
         text1 = pygame.font.SysFont(self.font, self.font_size_medium)
         text_surf, text_position = self.text_objects(self.text, text1, self.black)
-        text_position.center = (self.width / 2, 100)
+        text_position.center = (self.window_center_width, 100)
         self.screen.blit(text_surf, text_position)
 
         text2 = pygame.font.SysFont(self.font, self.font_size_medium)
         text_surf, text_position = self.text_objects(self.text2, text2, self.black)
-        text_position.center = (self.width / 2, self.height *0.7)
+        text_position.center = (self.window_center_width, self.height -self.window_one_third_height)
         self.screen.blit(text_surf, text_position)
 
         word = pygame.font.SysFont(self.font, self.font_size_large*2)
         text_surf, text_position = self.text_objects(self.word, word, self.red)
-        text_position.center = (self.width / 2, self.height /2-50)
+        text_position.center = (self.window_center_width, self.window_center_height-50)
         self.screen.blit(text_surf, text_position)
         while active:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     active = False
 
-            self.button(self.button_name, self.width / 2 - 100, self.height *0.80, 200, 80, self.bright_blue, self.blue,quit)
+            self.button(self.button_name, self.window_center_width - 100, self.height *0.8, 200, 80, self.bright_blue, self.blue,quit)
             pygame.display.update()
     def quit(self):
         pygame.quit()
