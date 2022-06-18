@@ -133,7 +133,8 @@ class ScreenGame(Screen):
     def on_letter_button_pressed(self, letter):
         self.letter_list.remove(letter)
         self.show_letter_if_present(letter)
-        pygame.draw.rect(self.screen, self.white, (self.window_center_width - 600, self.height-self.window_one_third_height, 850, 800))
+        pygame.draw.rect(self.screen, self.white, (self.window_center_width - 600,
+                                                   self.height-self.window_one_third_height, 850, 800))
         pygame.time.delay(100)
 
     def show_hangman(self):
@@ -142,7 +143,12 @@ class ScreenGame(Screen):
 
     def text_input(self, textinput, events, running_state):
         textinput.update(events)
-        pygame.draw.rect(self.screen,self.black,(self.window_one_third_width-60,self.window_center_height+70,300,50),2)
+        pygame.draw.rect(self.screen, self.black, (self.window_one_third_width - 60,
+                                                   self.window_center_height + 70, 300, 50), 2)
+        text = self.font.render("słowo:", True, self.black, self.white)
+        text_rectangle = text.get_rect()
+        text_rectangle.center = (self.window_one_third_width - 160, self.window_center_height + 87)
+        self.screen.blit(text, text_rectangle)
 
         for event in events:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
@@ -151,13 +157,8 @@ class ScreenGame(Screen):
                 else:
                     self.failed_clicks += 1
                 textinput.value = ""
-        self.screen.blit(textinput.surface, (self.window_one_third_width-50,self.window_center_height+80))
-
+        self.screen.blit(textinput.surface, (self.window_one_third_width-50, self.window_center_height+80))
 
     def quit(self):
         pygame.quit()
         exit()
-
-
-
-
