@@ -9,6 +9,20 @@ from Screen import Screen
 from ScreenFinal import ScreenFinal
 
 
+def load_images():
+    images = []
+    directory = Path(__file__).parent.absolute() / "assets" / "images"
+    for i in range(len(os.listdir(directory))):
+        img = pygame.image.load(str(directory / "hangman") + str(i) + ".png")
+        images.append(img)
+    return images
+
+
+def quit_game():
+    pygame.quit()
+    exit()
+
+
 class ScreenGame(Screen):
 
     def __init__(self, word, category):
@@ -26,7 +40,7 @@ class ScreenGame(Screen):
         self.word_rect = None
         self.category_rect = None
         self.set_font(self.font_name, self.font_size_medium)
-        self.images = self.load_images()
+        self.images = load_images()
 
     def run(self):
         running = True
@@ -42,35 +56,26 @@ class ScreenGame(Screen):
                     running = False
             self.show_masked_word()
             self.show_word_or_category(self.category)
-            self.button("Wyjście", self.width / 2 + 250, self.height * 0.7, 200, 80, self.bright_blue, self.blue, quit)
+            self.button("Wyjście", self.width / 2 + 250, self.height * 0.7, 200, 80, self.bright_blue, self.blue,
+                        quit_game)
             self.add_letter_buttons()
             self.show_hangman()
-            self.text_input(textinput, events, running)
+            running = self.text_input(textinput, events)
             if self.check_if_won():
-                self.win(running)
+                running = self.win()
             if self.check_if_fail():
-                self.fail(running)
+                running = self.fail()
             pygame.display.update()
 
-    def fail(self, running):
-        running = False
+    def fail(self):
         screen_final = ScreenFinal("loss", self.word)
         screen_final.run()
-        return running
+        return False
 
-    def win(self, running):
-        running = False
+    def win(self):
         screen_final = ScreenFinal("win", self.word)
         screen_final.run()
-        return running
-
-    def load_images(self):
-        images = []
-        directory = Path(__file__).parent.absolute() / "assets" / "images"
-        for i in range(len(os.listdir(directory))):
-            img = pygame.image.load(str(directory / "hangman") + str(i) + ".png")
-            images.append(img)
-        return images
+        return False
 
     def show_word_or_category(self, data):
         text = self.font.render(data, True, self.black, self.white)
@@ -107,7 +112,7 @@ class ScreenGame(Screen):
 
     def disp_word_rectangle(self, text):
         if self.word_rect is not None:
-            self.screen.blit(self.font.render(self.word + 7*"A", True, self.white, self.white),
+            self.screen.blit(self.font.render(self.word + 7 * "A", True, self.white, self.white),
                              self.word_rect)
         self.word_rect = text.get_rect()
         self.word_rect.center = (self.width // 3, self.height // 2)
@@ -122,7 +127,7 @@ class ScreenGame(Screen):
         iteration = 0
         mul = 0.7
         for i in self.letter_list:
-            self.button(i, self.width // 2 - 600 + iteration, self.height * mul,  self.letter_button_size,
+            self.button(i, self.width // 2 - 600 + iteration, self.height * mul, self.letter_button_size,
                         self.letter_button_size, self.bright_blue, self.blue,
                         letter_action=self.on_letter_button_pressed)
             iteration += 70
@@ -140,21 +145,15 @@ class ScreenGame(Screen):
         if -1 < self.failed_clicks < 10:
             self.screen.blit(self.images[self.failed_clicks], (self.width // 2 + 190, 50))
 
-    def text_input(self, textinput, events, running_state):
+    def text_input(self, textinput, events):
         textinput.update(events)
         for event in events:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
                 if textinput.value == self.word:
-                    self.win(running_state)
+                    self.win()
+                    return False
                 else:
                     self.failed_clicks += 1
                 textinput.value = ""
-        self.screen.blit(textinput.surface, (10,10))
-
-    def quit(self):
-        pygame.quit()
-        exit()
-
-
-
-
+        self.screen.blit(textinput.surface, (10, 10))
+        return True
