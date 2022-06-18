@@ -46,6 +46,7 @@ class ScreenFinal(Screen):
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     active = False
+                    quit(self)
 
             self.button(self.button_name, self.window_center_width - 100, self.height *0.8, 200, 80, self.bright_blue, self.blue,quit)
             pygame.display.update()

@@ -42,7 +42,7 @@ class ScreenGame(Screen):
                     running = False
             self.show_masked_word()
             self.show_word_or_category(self.category)
-            self.button("Wyjście", self.window_center_width + 250, self.height -self.window_one_third_height, 200, 80, self.bright_blue, self.blue, quit)
+            self.button("Koniec", self.window_center_width + 350, self.height*0.8, 200, 80, self.bright_blue, self.blue, quit)
             self.add_letter_buttons()
             self.show_hangman()
             self.text_input(textinput, events, running)
@@ -110,12 +110,12 @@ class ScreenGame(Screen):
             self.screen.blit(self.font.render(self.word + 7*"A", True, self.white, self.white),
                              self.word_rect)
         self.word_rect = text.get_rect()
-        self.word_rect.center = (self.window_one_third_width, self.window_center_height)
+        self.word_rect.center = (self.window_one_third_width, self.window_center_height-50)
         self.screen.blit(text, self.word_rect)
 
     def disp_category_rectangle(self, text):
         self.category_rect = text.get_rect()
-        self.category_rect.center = (self.window_one_third_width, self.window_center_height/2)
+        self.category_rect.center = (self.window_one_third_width, self.window_center_height/2-50)
         self.screen.blit(text, self.category_rect)
 
     def add_letter_buttons(self):
@@ -138,10 +138,12 @@ class ScreenGame(Screen):
 
     def show_hangman(self):
         if -1 < self.failed_clicks < 10:
-            self.screen.blit(self.images[self.failed_clicks], (self.window_center_width + 190, 50))
+            self.screen.blit(self.images[self.failed_clicks], (self.window_center_width + 190, 100))
 
     def text_input(self, textinput, events, running_state):
         textinput.update(events)
+        pygame.draw.rect(self.screen,self.black,(self.window_one_third_width-60,self.window_center_height+70,300,50),2)
+
         for event in events:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
                 if textinput.value == self.word:
@@ -149,7 +151,8 @@ class ScreenGame(Screen):
                 else:
                     self.failed_clicks += 1
                 textinput.value = ""
-        self.screen.blit(textinput.surface, (10,10))
+        self.screen.blit(textinput.surface, (self.window_one_third_width-50,self.window_center_height+80))
+
 
     def quit(self):
         pygame.quit()
