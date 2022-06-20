@@ -27,6 +27,10 @@ class ScreenGame(Screen):
         self.category_rect = None
         self.set_font(self.font_name, self.font_size_medium)
         self.images = self.load_images()
+        self.letter_list_temp = dict()
+        for i in self.letter_list:
+            self.letter_list_temp[i] = self.blue
+        self.letter_list = self.letter_list_temp
 
     def run(self):
         running = True
@@ -42,7 +46,8 @@ class ScreenGame(Screen):
                     running = False
             self.show_masked_word()
             self.show_word_or_category(self.category)
-            self.button("Koniec", self.window_center_width + 350, self.height*0.8, 200, 80, self.bright_blue, self.blue, quit)
+            self.button("Koniec", self.window_center_width + 350, self.height * 0.8, 200, 80, self.bright_blue,
+                        self.blue, quit)
             self.add_letter_buttons()
             self.show_hangman()
             self.text_input(textinput, events, running)
@@ -107,34 +112,41 @@ class ScreenGame(Screen):
 
     def disp_word_rectangle(self, text):
         if self.word_rect is not None:
-            self.screen.blit(self.font.render(self.word + 7*"A", True, self.white, self.white),
+            self.screen.blit(self.font.render(self.word + 7 * "A", True, self.white, self.white),
                              self.word_rect)
         self.word_rect = text.get_rect()
-        self.word_rect.center = (self.window_one_third_width, self.window_center_height-50)
+        self.word_rect.center = (self.window_one_third_width, self.window_center_height - 50)
         self.screen.blit(text, self.word_rect)
 
     def disp_category_rectangle(self, text):
         self.category_rect = text.get_rect()
-        self.category_rect.center = (self.window_one_third_width, self.window_center_height/2-50)
+        self.category_rect.center = (self.window_one_third_width, self.window_center_height / 2 - 50)
         self.screen.blit(text, self.category_rect)
 
     def add_letter_buttons(self):
         iteration = 0
         mul = 0.7
         for i in self.letter_list:
-            self.button(i, self.window_center_width - 600 + iteration, self.height * mul,  self.letter_button_size,
-                        self.letter_button_size, self.bright_blue, self.blue,
-                        letter_action=self.on_letter_button_pressed)
+            if self.letter_list[i] == self.grey:
+                self.button(i, self.window_center_width - 600 + iteration, self.height * mul, self.letter_button_size,
+                            self.letter_button_size, self.letter_list[i], self.letter_list[i],
+                            letter_action=self.on_letter_button_pressed)
+            else:
+                self.button(i, self.window_center_width - 600 + iteration, self.height * mul, self.letter_button_size,
+                            self.letter_button_size, self.bright_blue, self.blue,
+                            letter_action=self.on_letter_button_pressed)
             iteration += 70
             if iteration >= 800:
                 iteration = 0
                 mul += 0.1
 
     def on_letter_button_pressed(self, letter):
-        self.letter_list.remove(letter)
-        self.show_letter_if_present(letter)
+        # self.letter_list.remove(letter)
+        if self.letter_list[letter] != self.grey:
+            self.show_letter_if_present(letter)
+        self.letter_list[letter] = self.grey
         pygame.draw.rect(self.screen, self.white, (self.window_center_width - 600,
-                                                   self.height-self.window_one_third_height, 850, 800))
+                                                   self.height - self.window_one_third_height, 850, 800))
         pygame.time.delay(100)
 
     def show_hangman(self):
@@ -157,7 +169,7 @@ class ScreenGame(Screen):
                 else:
                     self.failed_clicks += 1
                 textinput.value = ""
-        self.screen.blit(textinput.surface, (self.window_one_third_width-50, self.window_center_height+80))
+        self.screen.blit(textinput.surface, (self.window_one_third_width - 50, self.window_center_height + 80))
 
     def quit(self):
         pygame.quit()

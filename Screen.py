@@ -30,6 +30,7 @@ class Screen:
         self.white = (255, 255, 255)
         self.blue = (0, 0, 204)
         self.bright_blue = (0, 128, 255)
+        self.grey = (80, 80, 80)
 
     def button(self, msg, x, y, w, h, inactive_color, active_color, action=None, letter_action=None):
         mouse = pygame.mouse.get_pos()
